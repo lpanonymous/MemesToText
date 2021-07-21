@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer tadaSound;
     private MediaPlayer cameraSound;
     private MediaPlayer failSound;
+    private Vision vision;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 null).setApplicationName("Traduccion de memes a texto");
         visionBuilder.setVisionRequestInitializer(
                 new VisionRequestInitializer("AIzaSyAWXphuZUn2J48u8QaM6P-GfPvhJdC4gJI"));
-        Vision vision = visionBuilder.build();
+        vision = visionBuilder.build();
 
 
         if (android.os.Build.VERSION.SDK_INT > 9)
@@ -149,108 +150,19 @@ public class MainActivity extends AppCompatActivity {
                             templateList.add(tname2);
                         }
                         System.out.println(templateList.toString());
-                        new Thread(new Runnable() {
-                            public void run() {
-                                try {
-                                    //Codificacion de la imagen
 
-                                    BitmapDrawable drawable = (BitmapDrawable) imgView.getDrawable();
-                                    Bitmap bitmap = drawable.getBitmap();
-                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
-                                    byte[] bitmapdata = bos.toByteArray();
-                                    ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
-                                    bitmapdata = IOUtils.toByteArray(bs);
-                                    Image inputImage = new Image();
-                                    inputImage.encodeContent(bitmapdata);
+                        //Codificacion de la imagen
+                        if(imgView.getDrawable() == null) {
+                            runOnUiThread(new Runnable() {
 
-
-                                    //Text detection
-                                    Feature textDetection = new Feature();
-                                    textDetection.setType("TEXT_DETECTION");
-                                    AnnotateImageRequest request2 = new AnnotateImageRequest();
-                                    request2.setImage(inputImage);
-                                    request2.setFeatures(Arrays.asList(textDetection));
-                                    BatchAnnotateImagesRequest batchRequest2 =
-                                            new BatchAnnotateImagesRequest();
-                                    batchRequest2.setRequests(Arrays.asList(request2));
-                                    BatchAnnotateImagesResponse batchResponse2 =
-                                            vision.images().annotate(batchRequest2).execute();
-                                    if (batchResponse2.getResponses().get(0).getFullTextAnnotation()!= null)
-                                    {
-                                        final TextAnnotation text = batchResponse2.getResponses()
-                                                .get(0).getFullTextAnnotation();
-                                        text2 = text.getText();
-                                    }
-                                    else
-                                    {
-                                        text2 = "";
-                                    }
-
-                                    //Web Detection
-                                    Feature desiredFeature = new Feature();
-                                    desiredFeature.setType("WEB_DETECTION");
-                                    AnnotateImageRequest request = new AnnotateImageRequest();
-                                    request.setImage(inputImage);
-                                    request.setFeatures(Arrays.asList(desiredFeature));
-                                    BatchAnnotateImagesRequest batchRequest = new BatchAnnotateImagesRequest();
-                                    batchRequest.setRequests(Arrays.asList(request));
-                                    BatchAnnotateImagesResponse batchResponse = vision.images().annotate(batchRequest).execute();
-                                    List<WebEntity> labels = batchResponse.getResponses().get(0).getWebDetection().getWebEntities();
-                                    weList = new ArrayList<String>();
-                                    //Llenado de la lista weList con los datos obtenidos de las entidades web
-                                    for (WebEntity entity : labels) {
-                                        //si un dato es distinto de nulo se almacenaran los datos en la lista
-                                        if (entity.getDescription()!=null)
-                                        {
-                                            //Los datos seran almacenados en minusculas y se quitaran los espacios para reducir errores
-                                            datawe = entity.getDescription().toLowerCase();
-                                            datawe2  = datawe.replaceAll("\\s+","");
-                                            weList.add(datawe2);
-                                        }
-                                    }
-                                    System.out.println(weList.toString());
-                                    //Se recorrera la lista de templateList
-                                    for (String element: templateList)
-                                    {
-                                        //si la lista de entidades web contiene algun elemento de templateList
-                                        if(weList.contains(element))
-                                        {
-                                            //Recorrer la lista de Templates obtenidas con retrofit de la api de Templates
-                                            for (Templates templates: templatesList)
-                                            {
-                                                //Obtener los nombres de templates, convertirlos a minusculas y quitar los espacios en blanco
-                                                tname = templates.getName().toLowerCase();
-                                                tname2  = tname.replaceAll("\\s+","");
-                                                //Comparar si element es igual a tname para obtener el contexto del meme
-                                                if(element.equals(tname2))
-                                                {
-                                                    rttv = templates.getContext();
-                                                    break;
-                                                }
-                                                else
-                                                {
-                                                    rttv = "";
-                                                }
-                                            }
-                                        }
-                                    }
-                                    tadaSound.start();
-                                    translateTextView.setText("");
-                                    translateTextView.setText(text2);
-                                    translateTextView.append(rttv);
-                                    translateTextView.setContentDescription("" + text2 + rttv);
-                                    rttv ="";
-
-                                } catch (IOException e) {
-                                    cuakSound.start();
-                                    translateTextView.setText("Por el momento MemesToText no esta funcionando.");
-                                    translateTextView.setContentDescription("Por el momento MemesToText no esta funcionando.");
-                                    e.printStackTrace();
+                                @Override
+                                public void run() {
+                                    imgView.setImageDrawable(getResources().getDrawable(R.drawable.badluckbrian));
+                                    failSound.start();
+                                    translate(imgView);
                                 }
-
-                            }
-                        }).start();
+                            });
+                        }
 
                     }
 
@@ -276,6 +188,109 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/");
         startActivityForResult(intent.createChooser(intent,"Selecciones la aplicación"), 10);
+    }
+    private void translate(ImageView imgView)
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    BitmapDrawable drawable = (BitmapDrawable) imgView.getDrawable();
+                    Bitmap bitmap = drawable.getBitmap();
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+                    ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+                    bitmapdata = IOUtils.toByteArray(bs);
+                    Image inputImage = new Image();
+                    inputImage.encodeContent(bitmapdata);
+
+
+                    //Text detection
+                    Feature textDetection = new Feature();
+                    textDetection.setType("TEXT_DETECTION");
+                    AnnotateImageRequest request2 = new AnnotateImageRequest();
+                    request2.setImage(inputImage);
+                    request2.setFeatures(Arrays.asList(textDetection));
+                    BatchAnnotateImagesRequest batchRequest2 =
+                            new BatchAnnotateImagesRequest();
+                    batchRequest2.setRequests(Arrays.asList(request2));
+                    BatchAnnotateImagesResponse batchResponse2 =
+                            vision.images().annotate(batchRequest2).execute();
+                    if (batchResponse2.getResponses().get(0).getFullTextAnnotation()!= null)
+                    {
+                        final TextAnnotation text = batchResponse2.getResponses()
+                                .get(0).getFullTextAnnotation();
+                        text2 = text.getText();
+                    }
+                    else
+                    {
+                        text2 = "";
+                    }
+
+                    //Web Detection
+                    Feature desiredFeature = new Feature();
+                    desiredFeature.setType("WEB_DETECTION");
+                    AnnotateImageRequest request = new AnnotateImageRequest();
+                    request.setImage(inputImage);
+                    request.setFeatures(Arrays.asList(desiredFeature));
+                    BatchAnnotateImagesRequest batchRequest = new BatchAnnotateImagesRequest();
+                    batchRequest.setRequests(Arrays.asList(request));
+                    BatchAnnotateImagesResponse batchResponse = vision.images().annotate(batchRequest).execute();
+                    List<WebEntity> labels = batchResponse.getResponses().get(0).getWebDetection().getWebEntities();
+                    weList = new ArrayList<String>();
+                    //Llenado de la lista weList con los datos obtenidos de las entidades web
+                    for (WebEntity entity : labels) {
+                        //si un dato es distinto de nulo se almacenaran los datos en la lista
+                        if (entity.getDescription()!=null)
+                        {
+                            //Los datos seran almacenados en minusculas y se quitaran los espacios para reducir errores
+                            datawe = entity.getDescription().toLowerCase();
+                            datawe2  = datawe.replaceAll("\\s+","");
+                            weList.add(datawe2);
+                        }
+                    }
+                    System.out.println(weList.toString());
+                    //Se recorrera la lista de templateList
+                    for (String element: templateList)
+                    {
+                        //si la lista de entidades web contiene algun elemento de templateList
+                        if(weList.contains(element))
+                        {
+                            //Recorrer la lista de Templates obtenidas con retrofit de la api de Templates
+                            for (Templates templates: templatesList)
+                            {
+                                //Obtener los nombres de templates, convertirlos a minusculas y quitar los espacios en blanco
+                                tname = templates.getName().toLowerCase();
+                                tname2  = tname.replaceAll("\\s+","");
+                                //Comparar si element es igual a tname para obtener el contexto del meme
+                                if(element.equals(tname2))
+                                {
+                                    rttv = templates.getContext();
+                                    break;
+                                }
+                                else
+                                {
+                                    rttv = "";
+                                }
+                            }
+                        }
+                    }
+                    tadaSound.start();
+                    translateTextView.setText("");
+                    translateTextView.setText(text2);
+                    translateTextView.append(rttv);
+                    translateTextView.setContentDescription("" + text2 + rttv);
+                    rttv ="";
+
+                } catch (IOException e) {
+                    cuakSound.start();
+                    translateTextView.setText("Por el momento MemesToText no esta funcionando.");
+                    translateTextView.setContentDescription("Por el momento MemesToText no esta funcionando.");
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
