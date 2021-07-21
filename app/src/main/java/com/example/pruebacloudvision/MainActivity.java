@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private String datawe2;
     private List<Templates> templatesList;
     private String rttv = "";
-    private String text2;
+    private String text2 = "";
 
     //public static final int REQUEST_CODE_TAKE_PHOTO = 0 /*1*/;
     //private String mCurrentPhotoPath;
@@ -162,6 +162,10 @@ public class MainActivity extends AppCompatActivity {
                                     translate(imgView);
                                 }
                             });
+                        }
+                        else
+                        {
+                            translate(imgView);
                         }
 
                     }
@@ -276,12 +280,19 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    tadaSound.start();
-                    translateTextView.setText("");
-                    translateTextView.setText(text2);
-                    translateTextView.append(rttv);
-                    translateTextView.setContentDescription("" + text2 + rttv);
-                    rttv ="";
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tadaSound.start();
+                            translateTextView.setText("");
+                            translateTextView.setText(text2);
+                            translateTextView.append(rttv);
+                            translateTextView.setContentDescription("" + text2 + rttv);
+                            rttv ="";
+                            text2 ="";
+                        }
+                    });
+
 
                 } catch (IOException e) {
                     cuakSound.start();
