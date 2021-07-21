@@ -15,6 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.146"
+        android:contentDescription="@string/img_view"
         />
 
     <TextView
@@ -28,7 +29,8 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.866" />
+        app:layout_constraintVertical_bias="0.866"
+        />
 
     <Button
         android:id="@+id/btn_buscar"
@@ -37,10 +39,12 @@
         android:layout_marginEnd="36dp"
         android:layout_marginRight="36dp"
         android:layout_marginBottom="20dp"
+        android:contentDescription="@string/btn_translate"
         android:text="Traducir"
         app:layout_constraintBottom_toTopOf="@+id/tv1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.787"
+        app:layout_constraintHorizontal_bias="0.987"
+        app:layout_constraintStart_toEndOf="@+id/buttonImage"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:layout_constraintVertical_bias="0.888" />
 
@@ -56,9 +60,10 @@
         app:layout_constraintBottom_toTopOf="@+id/tv1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.888"
+        android:contentDescription="@string/btn_upload_image"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/buttonCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,6 +74,7 @@
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toEndOf="@+id/buttonImage"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.888"
+        android:contentDescription="@string/btn_upload_camera"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

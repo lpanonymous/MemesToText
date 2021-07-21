@@ -1,25 +1,26 @@
 package com.example.pruebacloudvision;
 
-import androidx.annotation.Nullable;
+//import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+//import androidx.core.app.ActivityCompat;
+//import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.ContentValues;
+//import android.Manifest;
+//import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+//import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+//import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+//import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Base64;
-import android.util.Log;
+//import android.util.Base64;
+//import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,25 +42,24 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+//import java.io.File;
+//import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
+//import java.io.InputStream;
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+//import java.util.Date;
 import java.util.List;
 
-import okio.ByteString;
+//import okio.ByteString;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.content.ContentValues.TAG;
+//import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView imgView;
@@ -74,9 +74,13 @@ public class MainActivity extends AppCompatActivity {
     private String rttv = "";
     private String text2;
 
-    public static final int REQUEST_CODE_TAKE_PHOTO = 0 /*1*/;
-    private String mCurrentPhotoPath;
-    private Uri photoURI;
+    //public static final int REQUEST_CODE_TAKE_PHOTO = 0 /*1*/;
+    //private String mCurrentPhotoPath;
+    //private Uri photoURI;
+    private MediaPlayer cuakSound;
+    private MediaPlayer tadaSound;
+    private MediaPlayer cameraSound;
+    private MediaPlayer failSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
         translateTextView.setMovementMethod(new ScrollingMovementMethod());
         imgView = (ImageView)findViewById(R.id.image);
         imgView.setImageDrawable(getResources().getDrawable(R.drawable.badluckbrian));
+
+        cuakSound = MediaPlayer.create(this, R.raw.cuak);
+        tadaSound = MediaPlayer.create(this, R.raw.tada);
+        cameraSound = MediaPlayer.create(this, R.raw.camera);
+        failSound = MediaPlayer.create(this, R.raw.fail);
         Vision.Builder visionBuilder = new Vision.Builder(
                 new NetHttpTransport(),
                 new AndroidJsonFactory(),
@@ -103,144 +112,156 @@ public class MainActivity extends AppCompatActivity {
         }
 
         final Button btnSearch = findViewById(R.id.btn_buscar);
-        final Button btnCamera = findViewById(R.id.buttonCamera);
+        /*final Button btnCamera = findViewById(R.id.buttonCamera);
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkExternalStoragePermission();
             }
-        });
+        });*/
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://192.168.100.9:8000/")
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-                    MemesApi memesApi = retrofit.create(MemesApi.class);
-                    Call<List<Templates>> call = memesApi.getPosts();
-                    call.enqueue(new Callback<List<Templates>>() {
-                        @Override
-                        public void onResponse(Call<List<Templates>> call, Response<List<Templates>> response) {
-                            if(!response.isSuccessful())
-                            {
-                                translateTextView.setText("Codigo: " + response.code());
-                                return;
-                            }
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://192.168.100.9:8000/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                MemesApi memesApi = retrofit.create(MemesApi.class);
+                Call<List<Templates>> call = memesApi.getPosts();
+                call.enqueue(new Callback<List<Templates>>() {
+                    @Override
+                    public void onResponse(Call<List<Templates>> call, Response<List<Templates>> response) {
+                        if(!response.isSuccessful())
+                        {
+                            System.out.println("Codigo: " + response.code());
+                            cuakSound.start();
+                            return;
+                        }
 
-                            templatesList = response.body();
-                            templateList = new ArrayList<>();
+                        templatesList = response.body();
+                        templateList = new ArrayList<>();
 
-                            for (Templates templates: templatesList)
-                            {
-                                tname = templates.getName().toLowerCase();
-                                tname2  = tname.replaceAll("\\s+","");
-                                templateList.add(tname2);
-                            }
-                            System.out.println(templateList.toString());
-                                new Thread(new Runnable() {
-                                    public void run() {
-                                        try {
-                                            //Codificacion de la imagen
-                                            BitmapDrawable drawable = (BitmapDrawable) imgView.getDrawable();
-                                            Bitmap bitmap = drawable.getBitmap();
-                                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                                            bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
-                                            byte[] bitmapdata = bos.toByteArray();
-                                            ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
-                                            bitmapdata = IOUtils.toByteArray(bs);
-                                            Image inputImage = new Image();
-                                            inputImage.encodeContent(bitmapdata);
+                        for (Templates templates: templatesList)
+                        {
+                            tname = templates.getName().toLowerCase();
+                            tname2  = tname.replaceAll("\\s+","");
+                            templateList.add(tname2);
+                        }
+                        System.out.println(templateList.toString());
+                        new Thread(new Runnable() {
+                            public void run() {
+                                try {
+                                    //Codificacion de la imagen
+
+                                    BitmapDrawable drawable = (BitmapDrawable) imgView.getDrawable();
+                                    Bitmap bitmap = drawable.getBitmap();
+                                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                                    byte[] bitmapdata = bos.toByteArray();
+                                    ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+                                    bitmapdata = IOUtils.toByteArray(bs);
+                                    Image inputImage = new Image();
+                                    inputImage.encodeContent(bitmapdata);
 
 
-                                            //Text detection
-                                            Feature textDetection = new Feature();
-                                            textDetection.setType("TEXT_DETECTION");
-                                            AnnotateImageRequest request2 = new AnnotateImageRequest();
-                                            request2.setImage(inputImage);
-                                            request2.setFeatures(Arrays.asList(textDetection));
-                                            BatchAnnotateImagesRequest batchRequest2 =
-                                                    new BatchAnnotateImagesRequest();
-                                            batchRequest2.setRequests(Arrays.asList(request2));
-                                            BatchAnnotateImagesResponse batchResponse2 =
-                                                    vision.images().annotate(batchRequest2).execute();
-                                            if (batchResponse2.getResponses().get(0).getFullTextAnnotation()!= null)
-                                            {
-                                                final TextAnnotation text = batchResponse2.getResponses()
-                                                        .get(0).getFullTextAnnotation();
-                                                text2 = text.getText();
-                                            }
-                                            else
-                                            {
-                                                text2 = "";
-                                            }
-
-                                            //Web Detection
-                                            Feature desiredFeature = new Feature();
-                                            desiredFeature.setType("WEB_DETECTION");
-                                            AnnotateImageRequest request = new AnnotateImageRequest();
-                                            request.setImage(inputImage);
-                                            request.setFeatures(Arrays.asList(desiredFeature));
-                                            BatchAnnotateImagesRequest batchRequest = new BatchAnnotateImagesRequest();
-                                            batchRequest.setRequests(Arrays.asList(request));
-                                            BatchAnnotateImagesResponse batchResponse = vision.images().annotate(batchRequest).execute();
-                                            List<WebEntity> labels = batchResponse.getResponses().get(0).getWebDetection().getWebEntities();
-                                            weList = new ArrayList<String>();
-                                            //Llenado de la lista weList con los datos obtenidos de las entidades web
-                                            for (WebEntity entity : labels) {
-                                                //si un dato es distinto de nulo se almacenaran los datos en la lista
-                                                if (entity.getDescription()!=null)
-                                                {
-                                                    //Los datos seran almacenados en minusculas y se quitaran los espacios para reducir errores
-                                                    datawe = entity.getDescription().toLowerCase();
-                                                    datawe2  = datawe.replaceAll("\\s+","");
-                                                    weList.add(datawe2);
-                                                }
-                                            }
-                                            System.out.println(weList.toString());
-                                            //Se recorrera la lista de templateList
-                                            for (String element: templateList)
-                                            {
-                                                //si la lista de entidades web contiene algun elemento de templateList
-                                                if(weList.contains(element))
-                                                {
-                                                    //Recorrer la lista de Templates obtenidas con retrofit de la api de Templates
-                                                    for (Templates templates: templatesList)
-                                                    {
-                                                        //Obtener los nombres de templates, convertirlos a minusculas y quitar los espacios en blanco
-                                                        tname = templates.getName().toLowerCase();
-                                                        tname2  = tname.replaceAll("\\s+","");
-                                                        //Comparar si element es igual a tname para obtener el contexto del meme
-                                                        if(element.equals(tname2))
-                                                        {
-                                                            rttv = templates.getContext();
-                                                            break;
-                                                        }
-                                                        else
-                                                        {
-                                                            rttv = "";
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            translateTextView.setText("");
-                                            translateTextView.setText(text2);
-                                            translateTextView.append(rttv);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-
+                                    //Text detection
+                                    Feature textDetection = new Feature();
+                                    textDetection.setType("TEXT_DETECTION");
+                                    AnnotateImageRequest request2 = new AnnotateImageRequest();
+                                    request2.setImage(inputImage);
+                                    request2.setFeatures(Arrays.asList(textDetection));
+                                    BatchAnnotateImagesRequest batchRequest2 =
+                                            new BatchAnnotateImagesRequest();
+                                    batchRequest2.setRequests(Arrays.asList(request2));
+                                    BatchAnnotateImagesResponse batchResponse2 =
+                                            vision.images().annotate(batchRequest2).execute();
+                                    if (batchResponse2.getResponses().get(0).getFullTextAnnotation()!= null)
+                                    {
+                                        final TextAnnotation text = batchResponse2.getResponses()
+                                                .get(0).getFullTextAnnotation();
+                                        text2 = text.getText();
                                     }
-                                }).start();
+                                    else
+                                    {
+                                        text2 = "";
+                                    }
 
-                        }
+                                    //Web Detection
+                                    Feature desiredFeature = new Feature();
+                                    desiredFeature.setType("WEB_DETECTION");
+                                    AnnotateImageRequest request = new AnnotateImageRequest();
+                                    request.setImage(inputImage);
+                                    request.setFeatures(Arrays.asList(desiredFeature));
+                                    BatchAnnotateImagesRequest batchRequest = new BatchAnnotateImagesRequest();
+                                    batchRequest.setRequests(Arrays.asList(request));
+                                    BatchAnnotateImagesResponse batchResponse = vision.images().annotate(batchRequest).execute();
+                                    List<WebEntity> labels = batchResponse.getResponses().get(0).getWebDetection().getWebEntities();
+                                    weList = new ArrayList<String>();
+                                    //Llenado de la lista weList con los datos obtenidos de las entidades web
+                                    for (WebEntity entity : labels) {
+                                        //si un dato es distinto de nulo se almacenaran los datos en la lista
+                                        if (entity.getDescription()!=null)
+                                        {
+                                            //Los datos seran almacenados en minusculas y se quitaran los espacios para reducir errores
+                                            datawe = entity.getDescription().toLowerCase();
+                                            datawe2  = datawe.replaceAll("\\s+","");
+                                            weList.add(datawe2);
+                                        }
+                                    }
+                                    System.out.println(weList.toString());
+                                    //Se recorrera la lista de templateList
+                                    for (String element: templateList)
+                                    {
+                                        //si la lista de entidades web contiene algun elemento de templateList
+                                        if(weList.contains(element))
+                                        {
+                                            //Recorrer la lista de Templates obtenidas con retrofit de la api de Templates
+                                            for (Templates templates: templatesList)
+                                            {
+                                                //Obtener los nombres de templates, convertirlos a minusculas y quitar los espacios en blanco
+                                                tname = templates.getName().toLowerCase();
+                                                tname2  = tname.replaceAll("\\s+","");
+                                                //Comparar si element es igual a tname para obtener el contexto del meme
+                                                if(element.equals(tname2))
+                                                {
+                                                    rttv = templates.getContext();
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    rttv = "";
+                                                }
+                                            }
+                                        }
+                                    }
+                                    tadaSound.start();
+                                    translateTextView.setText("");
+                                    translateTextView.setText(text2);
+                                    translateTextView.append(rttv);
+                                    translateTextView.setContentDescription("" + text2 + rttv);
+                                    rttv ="";
 
-                        @Override
-                        public void onFailure(Call<List<Templates>> call, Throwable t) {
-                            translateTextView.setText(t.getMessage());
-                        }
-                    });
+                                } catch (IOException e) {
+                                    cuakSound.start();
+                                    translateTextView.setText("Por el momento MemesToText no esta funcionando.");
+                                    translateTextView.setContentDescription("Por el momento MemesToText no esta funcionando.");
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }).start();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Templates>> call, Throwable t) {
+                        cuakSound.start();
+                        translateTextView.setText("Por el momento MemesToText no esta funcionando.");
+                        translateTextView.setContentDescription("Por el momento MemesToText no esta funcionando.");
+                        t.getMessage();
+                    }
+                });
             }
         });
     }
@@ -260,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_TAKE_PHOTO && resultCode == RESULT_OK)
+        /*if(requestCode == REQUEST_CODE_TAKE_PHOTO && resultCode == RESULT_OK)
         {
             Bitmap bitmap;
             try {
@@ -273,15 +294,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-        else if(resultCode == RESULT_OK)
+        else*/
+        if(resultCode == RESULT_OK)
         {
             Uri path = data.getData();
             imgView.setImageURI(path);
+            cameraSound.start();
         }
 
     }
 
-    private void checkExternalStoragePermission() {
+    /*private void checkExternalStoragePermission() {
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -312,9 +335,9 @@ public class MainActivity extends AppCompatActivity {
         else{
             dispatchTakePictureIntent();
         }
-    }
+    }*/
 
-    private void dispatchTakePictureIntent() {
+    /*private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -340,23 +363,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, REQUEST_CODE_TAKE_PHOTO);
             }
         }
-    }
+    }*/
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
+    /*private File createImageFile() throws IOException {
+        //Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,  prefix
+                ".jpg",         suffix
+                storageDir      directory
         );
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
-    }
+    }*/
 
 
 }

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MemesToText</string>
+    <string name="img_view">Contenedor de la imagen cargada</string>
+    <string name="btn_upload_image">Cargar una imagen de la galería</string>
+    <string name="btn_upload_camera">Tomar una foto con la cámara y cargarla</string>
+    <string name="btn_translate">Traducir la imagen cargada</string>
+    <string name="txt_view">Resultado de la traducción</string>
 </resources>
