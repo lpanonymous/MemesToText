@@ -30,7 +30,7 @@ _Que cosas necesitas para instalar el software y como instalarlas_
 
 ## Ejecutando las pruebas ⚙️
 ### 1.- Seleccionar el boton imagen
-![1.- Seleccionar el boton imagen](<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p1.jpg" alt="My cool logo"/>) 
+<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p1.jpg" alt="My cool logo"/>
 ![2.- Seleccionar la aplicación de galería](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p2.jpg)
 ### 3.- Seleccionar el álbum
 ![3.- Seleccionar el álbum](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p3.jpg)
