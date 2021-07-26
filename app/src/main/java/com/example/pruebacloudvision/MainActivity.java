@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 new AndroidJsonFactory(),
                 null).setApplicationName("Traduccion de memes a texto");
         visionBuilder.setVisionRequestInitializer(
-                new VisionRequestInitializer("AIzaSyAWXphuZUn2J48u8QaM6P-GfPvhJdC4gJI"));
+                new VisionRequestInitializer("AIzaSyBMq0-z4hnI0EayR0NaW2NxdjNKv07lHY4"));
         vision = visionBuilder.build();
 
 
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://192.168.100.9:8000/")
+                        .baseUrl("https://crowdmemes.herokuapp.com/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 MemesApi memesApi = retrofit.create(MemesApi.class);
