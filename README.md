@@ -30,19 +30,19 @@ _Que cosas necesitas para instalar el software y como instalarlas_
 
 ## Ejecutando las pruebas ⚙️
 <h3>1.- Seleccionar el boton imagen</h3>
-<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p1.jpg" alt="My cool logo" width=500px height=800px/>
-<h3>2.- Seleccionar la aplicación de la galeria</h3>
-<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p2.jpg" alt="My cool logo" width=500px height=800px/>
+<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p1.jpg" alt="Seleccionar el boton imagen" width=400px height=700px/>
+<h3>2.- Seleccionar la aplicación de la galería</h3>
+<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p2.jpg" alt="Seleccionar la aplicación de la galería" width=400px height=700px/>
 <h3>3.- Seleccionar el álbum</h3>
-<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p3.jpg" alt="My cool logo" width=500px height=800px/>
+<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p3.jpg" alt="Seleccionar el álbum" width=400px height=700px/>
 <h3>4.- Pantalla de selección de imagen</h3>
-<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p4.jpg" alt="My cool logo" width=500px height=800px/>
+<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p4.jpg" alt="Pantalla de selección de imagen" width=400px height=700px/>
 <h3>5.- Resultado al seleccionar una imagen</h3>
-<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p5.jpg" alt="My cool logo" width=500px height=800px/>
+<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p5.jpg" alt="Resultado al seleccionar una imagen" width=400px height=700px/>
 <h3>6.- Seleccionar el botón de traducir</h3>
-<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p6.jpg" alt="My cool logo" width=500px height=800px/>
+<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p6.jpg" alt="Seleccionar el botón de traducir" width=400px height=700px/>
 <h3>7.-Resultado  de la traducción de meme a texto</h3>
-<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p7.jpg" alt="My cool logo" width=500px height=800px/>
+<img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p7.jpg" alt="Resultado  de la traducción de meme a texto" width=400px height=700px/>
    
 ## Construido con 🛠️
 
