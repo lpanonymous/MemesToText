@@ -29,7 +29,13 @@ _Que cosas necesitas para instalar el software y como instalarlas_
 ```
 
 ## Ejecutando las pruebas ⚙️
-![alt text](https://drive.google.com/file/d/1nvzmCVTn8K-Zu7DLJbZ1FTXsuEkIoYvY/view?usp=sharing)
+![alt text](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p1.jpg)
+![alt text](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p2.jpg)
+![alt text](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p3.jpg)
+![alt text](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p4.jpg)
+![alt text](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p5.jpg)
+![alt text](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p6.jpg)
+![alt text](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p7.jpg)
    
 ## Construido con 🛠️
 
