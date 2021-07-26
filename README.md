@@ -29,7 +29,6 @@ _Que cosas necesitas para instalar el software y como instalarlas_
 ```
 
 ## Ejecutando las pruebas ⚙️
-```
 1.- Seleccionar el boton imagen
 <img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p1.jpg" alt="My cool logo" width=500px height=800px/>
 2.- Seleccionar la aplicación de la galeria
@@ -44,7 +43,6 @@ _Que cosas necesitas para instalar el software y como instalarlas_
 <img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p6.jpg" alt="My cool logo" width=500px height=800px/>
 7.-Resultado  de la traducción de meme a texto
 <img src="https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p7.jpg" alt="My cool logo" width=500px height=800px/>
-```
    
 ## Construido con 🛠️
 
