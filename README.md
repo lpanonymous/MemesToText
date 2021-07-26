@@ -29,19 +29,19 @@ _Que cosas necesitas para instalar el software y como instalarlas_
 ```
 
 ## Ejecutando las pruebas ⚙️
-1.- Seleccionar el boton imagen
+### 1.- Seleccionar el boton imagen
 ![1.- Seleccionar el boton imagen](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p1.jpg)
-2.- Seleccionar la aplicación de galería
+### 2.- Seleccionar la aplicación de galería
 ![2.- Seleccionar la aplicación de galería](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p2.jpg)
-3.- Seleccionar el álbum
+### 3.- Seleccionar el álbum
 ![3.- Seleccionar el álbum](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p3.jpg)
-4.- Pantalla de selección de imagen
+### 4.- Pantalla de selección de imagen
 ![4.- Pantalla de selección de imagen](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p4.jpg)
-5.- Resultado al seleccionar una imagen
+### 5.- Resultado al seleccionar una imagen
 ![5.- Resultado al seleccionar una imagen](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p5.jpg)
-6.- Seleccionar el botón de traducir
+### 6.- Seleccionar el botón de traducir
 ![6.- Seleccionar el botón de traducir](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p6.jpg)
-7.-Resultado  de la traducción de meme a texto
+### 7.-Resultado  de la traducción de meme a texto
 ![7.-Resultado  de la traducción de meme a texto](https://github.com/lpanonymous/MemesToText/blob/master/app/src/main/res/drawable-v24/p7.jpg)
    
 ## Construido con 🛠️
