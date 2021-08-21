@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 new AndroidJsonFactory(),
                 null).setApplicationName("Traduccion de memes a texto");
         visionBuilder.setVisionRequestInitializer(
-                new VisionRequestInitializer("AIzaSyCnAEfSaoyvQ2cxxlI6lSpyV4aKxK6IuCc"));
+                new VisionRequestInitializer(""));
         vision = visionBuilder.build();
 
 
