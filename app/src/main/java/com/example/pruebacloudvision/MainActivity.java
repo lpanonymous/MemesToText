@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://crowdmemes.herokuapp.com/")
+                        .baseUrl("https://crowdmemes2.herokuapp.com/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 MemesApi memesApi = retrofit.create(MemesApi.class);
@@ -407,13 +407,13 @@ public class MainActivity extends AppCompatActivity {
                                 tname2 = tname.replaceAll("\\s+", "");
                                 //Comparar si element es igual a tname para obtener el contexto del meme
                                 if (element.equals(tname2)) {
-
                                     rttv = templates.getContext();
                                     break;
                                 } else {
                                     rttv = "";
                                 }
                             }
+                            break;
                         }
                     }
                     if (rttv.equals("") && text2.equals(""))
